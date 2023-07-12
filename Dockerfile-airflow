@@ -13,7 +13,7 @@ RUN apt-get update \
         build-essential \
         python3.9 \
         python3-pip \
-    && apt-get install -y openjdk-11-jdk && \
+    && apt-get install -y openjdk-11-jdk \
 	&& apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,5 +30,5 @@ COPY requirements.txt .
 
 COPY .kaggle/ .kaggle/
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements_airflow.txt
 RUN python -m pip install --upgrade pip
