@@ -13,16 +13,18 @@ from airflow.providers.microsoft.azure.transfers.local_to_wasb import LocalFiles
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobClient, BlobServiceClient, ContainerClient
 
+default_args = {
+    'owner': 'luciano.zembruzki'
+}
+
 
 # Define a function that fetches Azure credentials from a JSON file
 def get_azure_credentials(filename):
     # Opening and reading the JSON file
     with open(filename, 'r') as f:
         data = json.load(f)
-        
-    connection_string = data['connection_string']
 
-    return connection_string
+    return data['connection_string']
 
 # Call the function with the specified JSON file path to get the Azure connection string
 AZURE_CONNECTION_STRING = get_azure_credentials('/opt/airflow/secure_credentials/azure_credentials.json')
@@ -66,7 +68,7 @@ def _list_datasets_on_kaggle(ti):
         movies_dataset_list += dataset_list
 
     # Trim the master list to required number of datasets and push to Xcom
-    data = [str(item) for item in movies_dataset_list[0:num_datasets]]
+    data = [str(item) for item in movies_dataset_list[:num_datasets]]
     ti.xcom_push(key='datasets_list', value=data)
 
 # Define a function to download datasets from Kaggle
@@ -130,6 +132,7 @@ with DAG(
     dag_id='kaggle_related_datasets',
     schedule=None,
     start_date=datetime(2023, 1, 1),
+    default_args=default_args,
     catchup=False
 ) as dag:
     # Define tasks in the DAG
