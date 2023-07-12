@@ -165,3 +165,5 @@ cython_debug/
 #Airflow
 logs/
 secure_credentials/
+.kaggle/
+
