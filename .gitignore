@@ -167,3 +167,6 @@ logs/
 secure_credentials/
 .kaggle/
 
+
+*.csv
+
