@@ -1,0 +1,7 @@
+google-analytics-data
+pandas
+sqlalchemy
+kaggle
+azure-storage-blob
+azure-identity
+pyspark
